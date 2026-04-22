@@ -108,7 +108,7 @@ export function activate(context: vscode.ExtensionContext): void {
         return;
       }
 
-  const workspaceRoot = getWorkspaceRoot();
+      const workspaceRoot = getWorkspaceRoot();
 
       const confirmed = await vscode.window.showWarningMessage(
         `Remove symlink "${item.entry.name}"? The original folder will not be affected.`,
