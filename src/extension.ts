@@ -1,8 +1,20 @@
 import * as vscode from "vscode";
 import * as path from "path";
 import { SymlinkTreeProvider, SymlinkItem } from "./symlinkTreeProvider";
-import { addSymlink, removeSymlink } from "./symlinkManager";
-import { getTargetFolder, getWorkspaceRoot } from "./config";
+import { addSymlink, removeSymlink, listSymlinks, setDescription } from "./symlinkManager";
+import { getTargetFolder, getWorkspaceRoot, shouldUpdateInstructions, getInstructionsFile } from "./config";
+import { updateInstructionsFile } from "./instructionsManager";
+
+async function syncInstructions(workspaceRoot: string): Promise<void> {
+  if (!shouldUpdateInstructions()) {
+    return;
+  }
+  const targetFolder = getTargetFolder();
+  const targetDir = path.join(workspaceRoot, targetFolder);
+  const symlinks = await listSymlinks(targetDir);
+  const instructionsFile = getInstructionsFile(workspaceRoot);
+  await updateInstructionsFile(instructionsFile, symlinks, targetFolder);
+}
 
 export function activate(context: vscode.ExtensionContext): void {
   const treeProvider = new SymlinkTreeProvider();
@@ -46,6 +58,19 @@ export function activate(context: vscode.ExtensionContext): void {
           workspaceRoot,
           targetFolder,
         );
+
+        // Prompt for an optional description
+        const description = await vscode.window.showInputBox({
+          prompt: `Describe "${path.basename(symlinkPath)}" for the AI agent (optional)`,
+          placeHolder: 'e.g. JWT authentication with refresh tokens using NestJS',
+        });
+
+        if (description) {
+          const targetDir = path.join(workspaceRoot, targetFolder);
+          await setDescription(targetDir, path.basename(symlinkPath), description);
+        }
+
+        await syncInstructions(workspaceRoot);
         treeProvider.refresh();
         vscode.window.showInformationMessage(
           `Symlink created: ${path.basename(symlinkPath)} → ${sourcePath}`,
@@ -80,6 +105,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
       try {
         await removeSymlink(item.entry.symlinkPath);
+        await syncInstructions(workspaceRoot!);
         treeProvider.refresh();
         vscode.window.showInformationMessage(
           `Symlink "${item.entry.name}" removed.`,
@@ -111,6 +137,34 @@ export function activate(context: vscode.ExtensionContext): void {
     },
   );
 
+  const editDescriptionCommand = vscode.commands.registerCommand(
+    'symlinkFolders.editDescription',
+    async (item?: SymlinkItem) => {
+      if (!item) {
+        return;
+      }
+      const workspaceRoot = getWorkspaceRoot();
+      if (!workspaceRoot) {
+        return;
+      }
+
+      const description = await vscode.window.showInputBox({
+        prompt: `Update description for "${item.entry.name}"`,
+        value: item.entry.description ?? '',
+        placeHolder: 'e.g. JWT authentication with refresh tokens using NestJS',
+      });
+
+      if (description === undefined) {
+        return; // cancelled
+      }
+
+      const targetDir = path.join(workspaceRoot, getTargetFolder());
+      await setDescription(targetDir, item.entry.name, description);
+      await syncInstructions(workspaceRoot);
+      treeProvider.refresh();
+    }
+  );
+
   const revealCommand = vscode.commands.registerCommand(
     "symlinkFolders.revealInFinder",
     async (item?: SymlinkItem) => {
@@ -131,6 +185,7 @@ export function activate(context: vscode.ExtensionContext): void {
     removeCommand,
     refreshCommand,
     openTargetCommand,
+    editDescriptionCommand,
     revealCommand,
   );
 }

@@ -6,8 +6,10 @@ import { getTargetFolder, getWorkspaceRoot } from "./config";
 export class SymlinkItem extends vscode.TreeItem {
   constructor(public readonly entry: SymlinkEntry) {
     super(entry.name, vscode.TreeItemCollapsibleState.None);
-    this.description = entry.realPath;
-    this.tooltip = `${entry.name} → ${entry.realPath}`;
+    this.description = entry.description ?? entry.realPath;
+    this.tooltip = entry.description
+      ? `${entry.name} → ${entry.realPath}\n${entry.description}`
+      : `${entry.name} → ${entry.realPath}`;
     this.contextValue = "symlinkItem";
     this.iconPath = new vscode.ThemeIcon("file-symlink-directory");
     this.resourceUri = vscode.Uri.file(entry.symlinkPath);

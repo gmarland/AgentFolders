@@ -39,6 +39,11 @@
         "command": "symlinkFolders.revealInFinder",
         "title": "Reveal Original in Finder",
         "icon": "$(file-symlink-directory)"
+      },
+      {
+        "command": "symlinkFolders.editDescription",
+        "title": "Edit Description",
+        "icon": "$(edit)"
       }
     ],
     "views": {
@@ -74,6 +79,11 @@
           "group": "inline"
         },
         {
+          "command": "symlinkFolders.editDescription",
+          "when": "view == symlinkFolders && viewItem == symlinkItem",
+          "group": "inline"
+        },
+        {
           "command": "symlinkFolders.revealInFinder",
           "when": "view == symlinkFolders && viewItem == symlinkItem",
           "group": "inline"
@@ -87,6 +97,16 @@
           "type": "string",
           "default": ".examples",
           "description": "The folder within the workspace where symlinks will be created"
+        },
+        "symlinkFolders.updateAgentInstructions": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically update the agent instructions file when symlinks are added or removed"
+        },
+        "symlinkFolders.instructionsFile": {
+          "type": "string",
+          "default": ".github/copilot-instructions.md",
+          "description": "Relative path within the workspace to the agent instructions file to update"
         }
       }
     }
