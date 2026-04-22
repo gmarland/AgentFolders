@@ -25,7 +25,7 @@ test("adds managed block when target folder exists", async () => {
     const gitignorePath = path.join(tempDir, ".gitignore");
     const targetFolder = ".examples";
     const targetDirPath = path.join(tempDir, targetFolder);
-    const instructionsFilePath = path.join(tempDir, "AgentFolders.AGENTS.md");
+    const instructionsFilePath = path.join(tempDir, "AgentContext.AGENTS.md");
 
     await fs.mkdir(targetDirPath, { recursive: true });
 
@@ -39,7 +39,7 @@ test("adds managed block when target folder exists", async () => {
     const content = await fs.readFile(gitignorePath, "utf8");
     assert.equal(
       content,
-      `${BLOCK_START}\n/.examples/\n/AgentFolders.AGENTS.md\n${BLOCK_END}\n`,
+      `${BLOCK_START}\n/.examples/\n/AgentContext.AGENTS.md\n${BLOCK_END}\n`,
       "Expected .gitignore to contain only the managed block",
     );
   });
@@ -50,7 +50,7 @@ test("appends managed block while preserving existing rules", async () => {
     const gitignorePath = path.join(tempDir, ".gitignore");
     const targetFolder = ".examples";
     const targetDirPath = path.join(tempDir, targetFolder);
-    const instructionsFilePath = path.join(tempDir, "AgentFolders.AGENTS.md");
+    const instructionsFilePath = path.join(tempDir, "AgentContext.AGENTS.md");
 
     await fs.writeFile(gitignorePath, "node_modules/\nout/\n", "utf8");
     await fs.mkdir(targetDirPath, { recursive: true });
@@ -65,7 +65,7 @@ test("appends managed block while preserving existing rules", async () => {
     const content = await fs.readFile(gitignorePath, "utf8");
     assert.equal(
       content,
-      "node_modules/\nout/\n\n# agent-folders:start\n/.examples/\n/AgentFolders.AGENTS.md\n# agent-folders:end\n",
+      "node_modules/\nout/\n\n# agent-folders:start\n/.examples/\n/AgentContext.AGENTS.md\n# agent-folders:end\n",
       "Expected existing .gitignore rules to remain and managed block to append",
     );
   });
@@ -76,11 +76,11 @@ test("removes only the folder ignore entry when target folder is absent", async 
     const gitignorePath = path.join(tempDir, ".gitignore");
     const targetFolder = ".examples";
     const targetDirPath = path.join(tempDir, targetFolder);
-    const instructionsFilePath = path.join(tempDir, "AgentFolders.AGENTS.md");
+    const instructionsFilePath = path.join(tempDir, "AgentContext.AGENTS.md");
 
     await fs.writeFile(
       gitignorePath,
-      "node_modules/\n\n# agent-folders:start\n/.examples/\n/AgentFolders.AGENTS.md\n# agent-folders:end\n\nout/\n",
+      "node_modules/\n\n# agent-folders:start\n/.examples/\n/AgentContext.AGENTS.md\n# agent-folders:end\n\nout/\n",
       "utf8",
     );
 
@@ -94,7 +94,7 @@ test("removes only the folder ignore entry when target folder is absent", async 
     const content = await fs.readFile(gitignorePath, "utf8");
     assert.equal(
       content,
-      "node_modules/\n\n# agent-folders:start\n/AgentFolders.AGENTS.md\n# agent-folders:end\n\nout/\n",
+      "node_modules/\n\n# agent-folders:start\n/AgentContext.AGENTS.md\n# agent-folders:end\n\nout/\n",
       "Expected only the folder entry in the managed block to be removed",
     );
   });
@@ -105,7 +105,7 @@ test("preserves the instructions file ignore entry when only the folder disappea
     const gitignorePath = path.join(tempDir, ".gitignore");
     const targetFolder = ".examples";
     const targetDirPath = path.join(tempDir, targetFolder);
-    const instructionsFilePath = path.join(tempDir, "AgentFolders.AGENTS.md");
+    const instructionsFilePath = path.join(tempDir, "AgentContext.AGENTS.md");
 
     await fs.mkdir(targetDirPath, { recursive: true });
     await updateGitignoreFile(
@@ -126,7 +126,7 @@ test("preserves the instructions file ignore entry when only the folder disappea
     const content = await fs.readFile(gitignorePath, "utf8");
     assert.equal(
       content,
-      `${BLOCK_START}\n/AgentFolders.AGENTS.md\n${BLOCK_END}\n`,
+      `${BLOCK_START}\n/AgentContext.AGENTS.md\n${BLOCK_END}\n`,
       "Expected .gitignore to keep ignoring the generated instructions file",
     );
   });
@@ -140,7 +140,7 @@ test("supports ignoring a nested generated instructions file", async () => {
     const instructionsFilePath = path.join(
       tempDir,
       ".agent",
-      "AgentFolders.AGENTS.md",
+      "AgentContext.AGENTS.md",
     );
 
     await fs.mkdir(targetDirPath, { recursive: true });
@@ -154,7 +154,7 @@ test("supports ignoring a nested generated instructions file", async () => {
     const content = await fs.readFile(gitignorePath, "utf8");
     assert.equal(
       content,
-      `${BLOCK_START}\n/.examples/\n/.agent/AgentFolders.AGENTS.md\n${BLOCK_END}\n`,
+      `${BLOCK_START}\n/.examples/\n/.agent/AgentContext.AGENTS.md\n${BLOCK_END}\n`,
       "Expected nested generated instructions file to be ignored relative to the workspace root",
     );
   });

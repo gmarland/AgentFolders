@@ -14,10 +14,10 @@ function generateBlock(symlinks: SymlinkEntry[], targetFolder: string): string {
 
   const lines = [
     BLOCK_START,
-    "## Example Folders",
+    "## Agent Context",
     "",
-    `The following folders are symlinked into \`${targetFolder}/\` to provide reference implementations.`,
-    "Refer to these examples for patterns and conventions used in this project when they are relevant to the task.",
+    `The following folders are symlinked into \`${targetFolder}/\` to provide shared project context and reference implementations.`,
+    "Refer to this context for patterns and conventions used in this project when it is relevant to the task.",
     "",
   ];
 

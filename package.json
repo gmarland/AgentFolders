@@ -1,6 +1,6 @@
 {
-  "name": "symlink-extension",
-  "displayName": "Agent Folders",
+  "name": "agent-context",
+  "displayName": "Agent Context",
   "description": "Attach external reference folders to your workspace for agent and developer context",
   "version": "0.0.4",
   "engines": {
@@ -18,7 +18,7 @@
       "activitybar": [
         {
           "id": "agentFoldersSidebar",
-          "title": "Agent Folders",
+          "title": "Agent Context",
           "icon": "media/symlink-folders.svg"
         }
       ]
@@ -26,12 +26,12 @@
     "commands": [
       {
         "command": "agentFolders.addFolder",
-        "title": "Add Agent Folder",
+        "title": "Add Context Folder",
         "icon": "$(add)"
       },
       {
         "command": "agentFolders.removeFolder",
-        "title": "Remove Agent Folder",
+        "title": "Remove Context Folder",
         "icon": "$(trash)"
       },
       {
@@ -41,7 +41,7 @@
       },
       {
         "command": "agentFolders.openFolderDirectory",
-        "title": "Open Agent Folders Directory",
+        "title": "Open Agent Context Directory",
         "icon": "$(folder-opened)"
       },
       {
@@ -59,14 +59,14 @@
       "agentFoldersSidebar": [
         {
           "id": "agentFolders",
-          "name": "Attached Folders"
+          "name": "Attached Context"
         }
       ]
     },
     "viewsWelcome": [
       {
         "view": "agentFolders",
-        "contents": "No folders are attached yet.\n[Add Folder](command:agentFolders.addFolder)"
+        "contents": "No folders are attached yet.\n[Add Context Folder](command:agentFolders.addFolder)"
       }
     ],
     "menus": {
@@ -106,22 +106,22 @@
       ]
     },
     "configuration": {
-      "title": "Agent Folders",
+      "title": "Agent Context",
       "properties": {
-        "agentFolders.targetFolder": {
+        "agentContext.targetFolder": {
           "type": "string",
           "default": ".examples",
-          "description": "The folder within the workspace where agent folder symlinks will be created"
+          "description": "The folder within the workspace where agent context symlinks will be created"
         },
-        "agentFolders.updateAgentInstructions": {
+        "agentContext.updateAgentInstructions": {
           "type": "boolean",
           "default": true,
           "description": "Automatically update the shared instructions file when folders are added or removed"
         },
-        "agentFolders.instructionsFile": {
+        "agentContext.instructionsFile": {
           "type": "string",
-          "default": "AgentFolders.AGENTS.md",
-          "description": "Relative path within the workspace to the generated Agent Folders instructions file to update"
+          "default": "AgentContext.AGENTS.md",
+          "description": "Relative path within the workspace to the generated Agent Context instructions file to update"
         }
       }
     }

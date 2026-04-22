@@ -5,6 +5,14 @@ function getConfiguredValue<T>(
   key: string,
   defaultValue: T,
 ): T {
+  const agentContextValue = vscode.workspace
+    .getConfiguration("agentContext")
+    .get<T>(key);
+
+  if (agentContextValue !== undefined) {
+    return agentContextValue;
+  }
+
   const agentFoldersValue = vscode.workspace
     .getConfiguration("agentFolders")
     .get<T>(key);
@@ -31,6 +39,6 @@ export function shouldUpdateInstructions(): boolean {
 }
 
 export function getInstructionsFile(workspaceRoot: string): string {
-  const rel = getConfiguredValue("instructionsFile", "AgentFolders.AGENTS.md");
+  const rel = getConfiguredValue("instructionsFile", "AgentContext.AGENTS.md");
   return path.join(workspaceRoot, rel);
 }

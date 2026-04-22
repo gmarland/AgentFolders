@@ -1,6 +1,6 @@
-# Agent Folders
+# Agent Context
 
-`Agent Folders` is a VS Code extension for attaching external reference folders to your current workspace without copying them into the repo.
+`Agent Context` is a VS Code extension for attaching external reference folders to your current workspace without copying them into the repo.
 
 It creates symlinks inside a configurable workspace folder such as `.examples/`, keeps a sidebar list of attached folders, and can update a dedicated generated instructions file so coding agents and other collaborators know those references exist.
 
@@ -17,7 +17,7 @@ This extension lets you attach those folders to the active workspace as symlinks
 
 ## What It Does
 
-- Adds a dedicated `Agent Folders` icon to the VS Code Activity Bar
+- Adds a dedicated `Agent Context` icon to the VS Code Activity Bar
 - Shows all attached folders in a sidebar view
 - Lets you add a folder from anywhere on disk
 - Lets you remove an attached folder without touching the original source folder
@@ -32,7 +32,7 @@ When you attach a folder, the extension:
 1. Creates a symlink inside the configured target folder in your workspace
 2. Stores metadata in a sidecar file named `.symlinks.json`
 3. Updates `.gitignore` with a managed marker block that ignores the target folder and generated instructions file
-4. Optionally updates `AgentFolders.AGENTS.md` or another configured instructions file with a generated section listing the attached examples
+4. Optionally updates `AgentContext.AGENTS.md` or another configured instructions file with a generated section listing the attached examples
 
 The generated instructions block is wrapped with markers so it can be updated safely:
 
@@ -44,14 +44,14 @@ The generated instructions block is wrapped with markers so it can be updated sa
 
 ## Sidebar Workflow
 
-Open the `Agent Folders` icon in the Activity Bar to manage attached folders.
+Open the `Agent Context` icon in the Activity Bar to manage attached folders.
 
 Available actions:
 
-- `Add Agent Folder`: choose a folder on disk and attach it
+- `Add Context Folder`: choose a folder on disk and attach it
 - `Refresh`: reload the sidebar
-- `Open Agent Folders Directory`: reveal the workspace folder that contains the symlinks
-- `Remove Agent Folder`: detach a folder from the workspace
+- `Open Agent Context Directory`: reveal the workspace folder that contains the symlinks
+- `Remove Context Folder`: detach a folder from the workspace
 - `Edit Description`: update the text shown for that example
 - `Reveal Original Folder`: open the original folder location in the OS file manager
 
@@ -59,19 +59,19 @@ Available actions:
 
 This extension contributes the following settings:
 
-### `agentFolders.targetFolder`
+### `agentContext.targetFolder`
 
 - Default: `.examples`
 - The folder inside the workspace where symlinks are created
 
-### `agentFolders.updateAgentInstructions`
+### `agentContext.updateAgentInstructions`
 
 - Default: `true`
 - Enables automatic updates to the shared instructions file when folders are added or removed
 
-### `agentFolders.instructionsFile`
+### `agentContext.instructionsFile`
 
-- Default: `AgentFolders.AGENTS.md`
+- Default: `AgentContext.AGENTS.md`
 - Relative path to the generated instructions file to update
 
 ## Example

@@ -104,7 +104,7 @@ export function activate(context: vscode.ExtensionContext): void {
       canSelectFolders: true,
       canSelectFiles: false,
       canSelectMany: false,
-      openLabel: "Select Agent Folder",
+      openLabel: "Select Context Folder",
     });
 
     if (!uris || uris.length === 0) {
@@ -122,7 +122,7 @@ export function activate(context: vscode.ExtensionContext): void {
       );
 
       const description = await vscode.window.showInputBox({
-        prompt: `Describe "${path.basename(symlinkPath)}" for agents and teammates (optional)`,
+        prompt: `Describe "${path.basename(symlinkPath)}" for shared context (optional)`,
         placeHolder: "e.g. JWT authentication with refresh tokens using NestJS",
       });
 
@@ -138,11 +138,11 @@ export function activate(context: vscode.ExtensionContext): void {
       await syncInstructions(workspaceRoot);
       treeProvider.refresh();
       vscode.window.showInformationMessage(
-        `Agent folder added: ${path.basename(symlinkPath)} → ${sourcePath}`,
+        `Context folder added: ${path.basename(symlinkPath)} → ${sourcePath}`,
       );
     } catch (err: unknown) {
       vscode.window.showErrorMessage(
-        `Failed to add agent folder: ${err instanceof Error ? err.message : String(err)}`,
+        `Failed to add context folder: ${err instanceof Error ? err.message : String(err)}`,
       );
     }
   };
@@ -162,7 +162,7 @@ export function activate(context: vscode.ExtensionContext): void {
     const workspaceRoot = getWorkspaceRoot();
 
     const confirmed = await vscode.window.showWarningMessage(
-      `Remove agent folder "${item.entry.name}"? The original folder will not be affected.`,
+      `Remove context folder "${item.entry.name}"? The original folder will not be affected.`,
       { modal: true },
       "Remove",
     );
@@ -176,11 +176,11 @@ export function activate(context: vscode.ExtensionContext): void {
       await syncInstructions(workspaceRoot!);
       treeProvider.refresh();
       vscode.window.showInformationMessage(
-        `Agent folder "${item.entry.name}" removed.`,
+        `Context folder "${item.entry.name}" removed.`,
       );
     } catch (err: unknown) {
       vscode.window.showErrorMessage(
-        `Failed to remove agent folder: ${err instanceof Error ? err.message : String(err)}`,
+        `Failed to remove context folder: ${err instanceof Error ? err.message : String(err)}`,
       );
     }
   };
@@ -259,6 +259,7 @@ export function activate(context: vscode.ExtensionContext): void {
   const configChangeListener = vscode.workspace.onDidChangeConfiguration(
     (event) => {
       if (
+        !event.affectsConfiguration("agentContext") &&
         !event.affectsConfiguration("agentFolders") &&
         !event.affectsConfiguration("symlinkFolders")
       ) {
