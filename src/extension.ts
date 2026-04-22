@@ -34,10 +34,32 @@ export function activate(context: vscode.ExtensionContext): void {
     showCollapseAll: false,
   });
 
-  // Watch the target folder for external changes
-  const watcher = vscode.workspace.createFileSystemWatcher("**/.examples/**");
-  watcher.onDidCreate(() => treeProvider.refresh());
-  watcher.onDidDelete(() => treeProvider.refresh());
+  let watcherDisposables: vscode.Disposable[] = [];
+
+  const refreshWatchers = (): void => {
+    watcherDisposables.forEach((disposable) => disposable.dispose());
+    watcherDisposables = [];
+
+    const workspaceRoot = getWorkspaceRoot();
+    if (!workspaceRoot) {
+      return;
+    }
+
+    const watcherPattern = new vscode.RelativePattern(
+      workspaceRoot,
+      `${getTargetFolder()}/**`,
+    );
+    const watcher = vscode.workspace.createFileSystemWatcher(watcherPattern);
+
+    watcherDisposables.push(
+      watcher,
+      watcher.onDidCreate(() => treeProvider.refresh()),
+      watcher.onDidDelete(() => treeProvider.refresh()),
+      watcher.onDidChange(() => treeProvider.refresh()),
+    );
+  };
+
+  refreshWatchers();
 
   const addCommand = vscode.commands.registerCommand(
     "symlinkFolders.addSymlink",
@@ -195,15 +217,27 @@ export function activate(context: vscode.ExtensionContext): void {
     },
   );
 
+  const configChangeListener = vscode.workspace.onDidChangeConfiguration(
+    (event) => {
+      if (!event.affectsConfiguration("symlinkFolders")) {
+        return;
+      }
+
+      refreshWatchers();
+      treeProvider.refresh();
+    },
+  );
+
   context.subscriptions.push(
     treeView,
-    watcher,
+    { dispose: () => watcherDisposables.forEach((disposable) => disposable.dispose()) },
     addCommand,
     removeCommand,
     refreshCommand,
     openTargetCommand,
     editDescriptionCommand,
     revealCommand,
+    configChangeListener,
   );
 }
 

@@ -14,6 +14,15 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "symlinkFoldersSidebar",
+          "title": "Symlink Folders",
+          "icon": "media/symlink-folders.svg"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "symlinkFolders.addSymlink",
@@ -47,13 +56,19 @@
       }
     ],
     "views": {
-      "explorer": [
+      "symlinkFoldersSidebar": [
         {
           "id": "symlinkFolders",
-          "name": "Symlink Folders"
+          "name": "Attached Folders"
         }
       ]
     },
+    "viewsWelcome": [
+      {
+        "view": "symlinkFolders",
+        "contents": "No folders are attached yet.\n[Add Folder](command:symlinkFolders.addSymlink)"
+      }
+    ],
     "menus": {
       "view/title": [
         {
