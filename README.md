@@ -1,153 +1,186 @@
 # Agent Context
 
-`Agent Context` is a VS Code extension for attaching external reference folders to your current workspace without copying them into the repo.
+Give your AI coding tools access to your best reference code — without copying anything into your repo.
 
-It creates symlinks inside a configurable workspace folder such as `.examples/`, keeps a sidebar list of attached folders, and can update a dedicated generated instructions file so coding agents and other collaborators know those references exist.
+---
 
-## Why This Exists
+## Why this exists
 
-Teams often have useful reference implementations that live outside the current repository:
+Modern AI tools like GitHub Copilot, Cursor, and ChatGPT are only as good as the context they can see.
 
-- old services
-- internal starter projects
-- experimental branches checked out elsewhere
-- pattern libraries or sample apps
+But your most valuable code usually lives somewhere else:
 
-This extension lets you attach those folders to the active workspace as symlinks so they are visible to tooling and easy to reference, while leaving the original folders in place.
+- previous services  
+- internal starter projects  
+- architecture patterns  
+- experimental repos  
 
-## What It Does
+Agent Context lets you attach those projects directly to your workspace — so both **you and your AI tools can use them immediately**.
 
-- Adds a dedicated `Agent Context` icon to the VS Code Activity Bar
-- Shows all attached folders in a sidebar view
-- Lets you add a folder from anywhere on disk
-- Lets you remove an attached folder without touching the original source folder
-- Stores optional descriptions for each attached folder
-- Automatically maintains a managed block in `.gitignore` for the configured target folder when it exists
-- Can automatically maintain a block in a dedicated generated instructions file listing the available examples
+---
 
-## How It Works
+## What it does
 
-When you attach a folder, the extension:
+- Attach external folders as **live references**
+- Expose them inside your workspace via symlinks
+- Keep your repo clean (no copying, no vendoring)
+- Maintain a shared instructions file for humans and AI
+- Provide a sidebar to manage all attached context
 
-1. Creates a symlink inside the configured target folder in your workspace
-2. Stores metadata in a sidecar file named `.symlinks.json`
-3. Updates `.gitignore` with a managed marker block that ignores the target folder and generated instructions file
-4. Optionally updates `AgentContext.AGENTS.md` or another configured instructions file with a generated section listing the attached examples
+---
 
-The generated instructions block is wrapped with markers so it can be updated safely:
+## Built for AI-assisted development
 
-```md
-<!-- symlink-folders:start -->
-...
-<!-- symlink-folders:end -->
-```
+Agent Context turns your past work into **usable AI context**.
 
-## Sidebar Workflow
+When you attach folders, it can generate a shared instructions block that:
 
-Open the `Agent Context` icon in the Activity Bar to manage attached folders.
+- Lists available reference projects  
+- Describes what each one is useful for  
+- Helps AI tools generate better, more consistent code  
 
-Available actions:
-
-- `Add Context Folder`: choose a folder on disk and attach it
-- `Refresh`: reload the sidebar
-- `Open Agent Context Directory`: reveal the workspace folder that contains the symlinks
-- `Remove Context Folder`: detach a folder from the workspace
-- `Edit Description`: update the text shown for that example
-- `Reveal Original Folder`: open the original folder location in the OS file manager
-
-## Configuration
-
-This extension contributes the following settings:
-
-### `agentContext.targetFolder`
-
-- Default: `.examples`
-- The folder inside the workspace where symlinks are created
-
-### `agentContext.updateAgentInstructions`
-
-- Default: `true`
-- Enables automatic updates to the shared instructions file when folders are added or removed
-
-### `agentContext.instructionsFile`
-
-- Default: `AgentContext.AGENTS.md`
-- Relative path to the generated instructions file to update
+---
 
 ## Example
 
-If your workspace is:
+You’re working on:
 
-```text
 /projects/current-app
-```
 
-and you attach:
+You attach:
 
-```text
 /projects/reference-apps/nest-auth-example
-```
 
-the extension can create:
+Agent Context creates:
 
-```text
 /projects/current-app/.examples/nest-auth-example
-```
 
-That symlink points to the original folder, so you can inspect it from the current workspace without duplicating files.
+Now:
+
+- Browse it directly in VS Code  
+- Reference it in prompts  
+- Let AI tools use it as context  
+
+Example prompt:
+
+"Implement authentication similar to the nest-auth-example in .examples"
+
+---
+
+## Features
+
+- Activity Bar icon + sidebar view  
+- Add folders from anywhere on disk  
+- Remove folders safely (no impact on originals)  
+- Store descriptions for each reference  
+- Auto-managed `.gitignore` block  
+- Generated instructions file for team + AI awareness  
+- Fast, lightweight, zero-copy workflow  
+
+---
+
+## How it works
+
+When you attach a folder, the extension:
+
+1. Creates a symlink inside a workspace folder (default: `.examples/`)  
+2. Stores metadata in `.symlinks.json`  
+3. Updates `.gitignore` with a managed block  
+4. Optionally updates an instructions file  
+
+The generated instructions section is safely wrapped:
+
+<!-- symlink-folders:start -->
+...
+<!-- symlink-folders:end -->
+
+---
+
+## Sidebar workflow
+
+Open **Agent Context** from the Activity Bar.
+
+Available actions:
+
+- Add Agent Folder  
+- Refresh  
+- Open Context Folder  
+- Remove Agent Folder  
+- Edit Description  
+- Reveal Original Folder  
+
+---
+
+## Configuration
+
+### agentFolders.targetFolder
+
+- Default: `.examples`  
+
+### agentFolders.updateAgentInstructions
+
+- Default: `true`  
+
+### agentFolders.instructionsFile
+
+- Default: `AgentContext.AGENTS.md`  
+
+---
+
+## Intended use
+
+Agent Context is ideal when:
+
+- You reuse patterns across projects  
+- You want AI tools to follow real examples  
+- You want to avoid copying code into repos  
+- You want teams aligned on reference implementations  
+
+---
+
+## Installation
+
+1. Open VS Code  
+2. Go to Extensions  
+3. Search for **Agent Context**  
+4. Click Install  
+
+Or install via `.vsix`:
+
+code --install-extension agent-context.vsix
+
+---
 
 ## Development
 
 ### Requirements
 
-- Node.js
-- npm
-- VS Code 1.85 or newer
+- Node.js  
+- npm  
+- VS Code 1.85+  
 
 ### Install dependencies
 
-```bash
 npm install
-```
 
 ### Build
 
-```bash
 npm run compile
-```
 
-### Watch during development
+### Watch mode
 
-```bash
 npm run watch
-```
 
 ### Lint
 
-```bash
 npm run lint
-```
 
-### Run the extension
+### Run extension
 
-Open this project in VS Code and launch the extension host from the debugger.
+Open the project in VS Code and launch the Extension Host via debugger.
 
-## Project Structure
+---
 
-- `src/extension.ts`: extension activation and command registration
-- `src/symlinkManager.ts`: symlink creation, removal, listing, and metadata storage
-- `src/instructionsManager.ts`: generated instructions block management
-- `src/config.ts`: workspace configuration access
-- `src/symlinkTreeProvider.ts`: sidebar tree view data provider
+## License
 
-## Current Limitations
-
-- The attached folder name is derived from the source folder basename
-- The metadata sidecar file is stored inside the target folder
-- The instructions sync currently appends or replaces only the managed marker block in the generated instructions file
-
-## Intended Use
-
-This project is particularly useful when you want coding agents, AI tools, or other collaborators to have visibility into approved example implementations without vendoring those examples into the repository.
-
-It is a workspace convenience tool, not a packaging or dependency management system.
+MIT
