@@ -2,6 +2,8 @@
   "name": "agent-context",
   "displayName": "Agent Context",
   "description": "Attach external reference folders to your workspace for agent and developer context",
+  "publisher": "dotstorming",
+  "icon": "media/logo.png",
   "version": "0.0.4",
   "engines": {
     "vscode": "^1.85.0"
