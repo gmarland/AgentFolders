@@ -7,23 +7,17 @@
   />
   <rect
     x="10.1"
-    y="10.1"
+    y="11.1"
     width="5.8"
     height="4.8"
     rx="1.2"
     stroke="currentColor"
     stroke-width="1.6"
   />
-  <circle cx="12.2" cy="12.5" r="0.7" fill="currentColor" />
-  <circle cx="13.8" cy="12.5" r="0.7" fill="currentColor" />
+  <circle cx="12.2" cy="13.5" r="0.7" fill="currentColor" />
+  <circle cx="13.8" cy="13.5" r="0.7" fill="currentColor" />
   <path
-    d="M13 10.1V9.1"
-    stroke="currentColor"
-    stroke-width="1.6"
-    stroke-linecap="round"
-  />
-  <path
-    d="M8.3 13H10.1"
+    d="M8.3 13.5H10.1"
     stroke="currentColor"
     stroke-width="1.6"
     stroke-linecap="round"

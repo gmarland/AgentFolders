@@ -102,10 +102,10 @@ Open **Agent Context** from the Activity Bar.
 
 Available actions:
 
-- Add Agent Folder  
+- Add Context Folder  
 - Refresh  
-- Open Context Folder  
-- Remove Agent Folder  
+- Open Agent Context Directory  
+- Remove Context Folder  
 - Edit Description  
 - Reveal Original Folder  
 
@@ -113,15 +113,15 @@ Available actions:
 
 ## Configuration
 
-### agentFolders.targetFolder
+### agentContext.targetFolder
 
 - Default: `.examples`  
 
-### agentFolders.updateAgentInstructions
+### agentContext.updateAgentInstructions
 
 - Default: `true`  
 
-### agentFolders.instructionsFile
+### agentContext.instructionsFile
 
 - Default: `AgentContext.AGENTS.md`  
 

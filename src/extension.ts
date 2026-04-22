@@ -19,18 +19,33 @@ import {
 } from "./instructionsManager";
 
 const COMMAND_IDS = {
-  addFolder: ["agentFolders.addFolder", "symlinkFolders.addSymlink"],
-  removeFolder: ["agentFolders.removeFolder", "symlinkFolders.removeSymlink"],
-  refresh: ["agentFolders.refresh", "symlinkFolders.refresh"],
+  addFolder: [
+    "agentContext.addFolder",
+    "agentFolders.addFolder",
+    "symlinkFolders.addSymlink",
+  ],
+  removeFolder: [
+    "agentContext.removeFolder",
+    "agentFolders.removeFolder",
+    "symlinkFolders.removeSymlink",
+  ],
+  refresh: [
+    "agentContext.refresh",
+    "agentFolders.refresh",
+    "symlinkFolders.refresh",
+  ],
   openFolderDirectory: [
+    "agentContext.openFolderDirectory",
     "agentFolders.openFolderDirectory",
     "symlinkFolders.openTargetFolder",
   ],
   editDescription: [
+    "agentContext.editDescription",
     "agentFolders.editDescription",
     "symlinkFolders.editDescription",
   ],
   revealOriginalFolder: [
+    "agentContext.revealOriginalFolder",
     "agentFolders.revealOriginalFolder",
     "symlinkFolders.revealInFinder",
   ],
@@ -61,7 +76,7 @@ async function syncInstructions(workspaceRoot: string): Promise<void> {
 export function activate(context: vscode.ExtensionContext): void {
   const treeProvider = new SymlinkTreeProvider();
 
-  const treeView = vscode.window.createTreeView("agentFolders", {
+  const treeView = vscode.window.createTreeView("agentContext", {
     treeDataProvider: treeProvider,
     showCollapseAll: false,
   });

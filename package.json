@@ -10,14 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onView:agentFolders"
+    "onView:agentContext"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "viewsContainers": {
       "activitybar": [
         {
-          "id": "agentFoldersSidebar",
+          "id": "agentContextSidebar",
           "title": "Agent Context",
           "icon": "media/symlink-folders.svg"
         }
@@ -25,82 +25,82 @@
     },
     "commands": [
       {
-        "command": "agentFolders.addFolder",
+        "command": "agentContext.addFolder",
         "title": "Add Context Folder",
         "icon": "$(add)"
       },
       {
-        "command": "agentFolders.removeFolder",
+        "command": "agentContext.removeFolder",
         "title": "Remove Context Folder",
         "icon": "$(trash)"
       },
       {
-        "command": "agentFolders.refresh",
+        "command": "agentContext.refresh",
         "title": "Refresh",
         "icon": "$(refresh)"
       },
       {
-        "command": "agentFolders.openFolderDirectory",
+        "command": "agentContext.openFolderDirectory",
         "title": "Open Agent Context Directory",
         "icon": "$(folder-opened)"
       },
       {
-        "command": "agentFolders.revealOriginalFolder",
+        "command": "agentContext.revealOriginalFolder",
         "title": "Reveal Original Folder",
         "icon": "$(file-symlink-directory)"
       },
       {
-        "command": "agentFolders.editDescription",
+        "command": "agentContext.editDescription",
         "title": "Edit Description",
         "icon": "$(edit)"
       }
     ],
     "views": {
-      "agentFoldersSidebar": [
+      "agentContextSidebar": [
         {
-          "id": "agentFolders",
+          "id": "agentContext",
           "name": "Attached Context"
         }
       ]
     },
     "viewsWelcome": [
       {
-        "view": "agentFolders",
-        "contents": "No folders are attached yet.\n[Add Context Folder](command:agentFolders.addFolder)"
+        "view": "agentContext",
+        "contents": "No folders are attached yet.\n[Add Context Folder](command:agentContext.addFolder)"
       }
     ],
     "menus": {
       "view/title": [
         {
-          "command": "agentFolders.addFolder",
-          "when": "view == agentFolders",
+          "command": "agentContext.addFolder",
+          "when": "view == agentContext",
           "group": "navigation"
         },
         {
-          "command": "agentFolders.refresh",
-          "when": "view == agentFolders",
+          "command": "agentContext.refresh",
+          "when": "view == agentContext",
           "group": "navigation"
         },
         {
-          "command": "agentFolders.openFolderDirectory",
-          "when": "view == agentFolders",
+          "command": "agentContext.openFolderDirectory",
+          "when": "view == agentContext",
           "group": "navigation"
         }
       ],
       "view/item/context": [
         {
-          "command": "agentFolders.removeFolder",
-          "when": "view == agentFolders && viewItem == agentFolderItem",
+          "command": "agentContext.removeFolder",
+          "when": "view == agentContext && viewItem == agentContextItem",
           "group": "inline"
         },
         {
-          "command": "agentFolders.editDescription",
-          "when": "view == agentFolders && viewItem == agentFolderItem",
+          "command": "agentContext.editDescription",
+          "when": "view == agentContext && viewItem == agentContextItem",
           "group": "inline"
         },
         {
-          "command": "agentFolders.revealOriginalFolder",
-          "when": "view == agentFolders && viewItem == agentFolderItem",
+          "command": "agentContext.revealOriginalFolder",
+          "when": "view == agentContext && viewItem == agentContextItem",
           "group": "inline"
         }
       ]

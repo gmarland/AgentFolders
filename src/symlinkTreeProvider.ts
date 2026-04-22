@@ -10,7 +10,7 @@ export class SymlinkItem extends vscode.TreeItem {
     this.tooltip = entry.description
       ? `${entry.name} → ${entry.realPath}\n${entry.description}`
       : `${entry.name} → ${entry.realPath}`;
-    this.contextValue = "agentFolderItem";
+    this.contextValue = "agentContextItem";
     this.iconPath = new vscode.ThemeIcon("file-symlink-directory");
     this.resourceUri = vscode.Uri.file(entry.symlinkPath);
   }
